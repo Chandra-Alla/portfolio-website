@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chandra Alla - AI/ML Engineer Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 60px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header-title {
+            font-size: 1.8rem;
+            color: #0033cc;
+            font-weight: 500;
+            text-decoration: none;
+            display: block;
+        }
+
+        .header-title:hover {
+            text-decoration: none;
+            color: #0033cc;
+        }
+
+        .header-tagline {
+            font-size: 0.75rem;
+            color: #666;
+            font-weight: 400;
+            margin-top: 0.25rem;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 35px;
+        }
+
+        .header-nav a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.05rem;
+            transition: color 0.3s;
+        }
+
+        .header-nav a:hover {
+            color: #0033cc;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            margin-top: 0rem;
+            margin-bottom: 0.4rem;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            margin-top: 2rem;
+            margin-bottom: 0.4rem;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .about-section {
+            display: block;
+            margin-bottom: 2rem;
+        }
+
+        .about-section::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .about-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .profile-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: none;
+            float: right;
+            margin-left: 2rem;
+            transition: 0.5s all ease-in-out;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .profile-placeholder {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            font-weight: 300;
+            border: 4px solid #e8e8e8;
+        }
+
+        .social-links {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .social-links a {
+            color: #1f14f5;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links span {
+            color: #666;
+            margin: 0 0.3rem;
+        }
+
+        ul {
+            margin-left: 22px;
+            margin-top: 8px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .company-link {
+            color: #0033cc;
+            text-decoration: none;
+        }
+
+        .company-link:hover {
+            text-decoration: underline;
+        }
+
+        .paper-link {
+            color: #0033cc;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .paper-link:hover {
+            text-decoration: underline;
+        }
+
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .cert-item {
+            text-align: center;
+        }
+
+        .cert-badge {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            color: #666;
+            padding: 10px;
+        }
+
+        .cert-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cert-issuer {
+            font-size: 0.85rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 20px;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .skill-logo {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .skill-logo-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-logo-img:hover {
+            transform: scale(1.1);
+        }
+
+        .skill-logo-placeholder {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #666;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .skill-name {
+            font-size: 0.95rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .blog-item {
+            margin-bottom: 20px;
+        }
+
+        .blog-date {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .blog-link {
+            color: #0033cc;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .blog-link:hover {
+            text-decoration: underline;
+        }
+
+        .view-all {
+            color: #0033cc;
+            text-decoration: none;
+            font-size: 1rem;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 0 40px;
+            color: #999;
+            font-size: 0.9rem;
+            margin-top: 60px;
+            border-top: 1px solid #eee;
+        }
+
+        @media (max-width: 968px) {
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .profile-image, .profile-placeholder {
+                margin: 0 auto;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 30px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 30px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <a href="#home" class="header-title">Chandra Alla</a>
+                <div class="header-tagline">Applied Agentic AI @ Enterprise Scale | MSC | Passionate Engineer | Fluent in Both Boardroom Strategy & Building Code</div>
+            </div>
+            <nav class="header-nav">
+                <a href="#home">Home</a>
+                <a href="#blog">Blog</a>
+                <a href="#projects">Projects</a>
+            </nav>
+        </header>
+
+        <h1>Home</h1>
+
+        <h2>About Me</h2>
+        <div class="about-section">
+            <img src="profile.jpg" alt="Chandra A" class="profile-image">
+            <p>
+                I'm a Machine Learning & GenAI Engineer with hands-on experience applying Agentic AI at enterprise scale. At AT&T, I helped engineer the Agentic Foundry (AAW 2.0) a LangGraph-based multi-agent automation framework orchestrating retrieval, reasoning, validation, and remediation across 85+ complex workflows.
+            </p>
+            <p>
+                With an MBA foundation and strong technical depth, I bridge the gap between strategy and implementation, designing scalable AI systems that deliver measurable business impact. Passionate about building next-generation GenAI applications, I thrive at the intersection of intelligent automation, system design, and applied LLM innovation.
+            </p>
+            <div class="social-links">
+                <a href="mailto:chandraalla72@gmail.com">Email</a>
+                <span>/</span>
+                <a href="https://github.com/chandraalla" target="_blank">Github</a>
+                <span>/</span>
+                <a href="https://linkedin.com/in/chandra-a" target="_blank">LinkedIn</a>
+                <span>/</span>
+                <a href="tel:+19452070833">Phone: (945) 207-0833</a>
+            </div>
+        </div>
+
+        <h3>Education</h3>
+        <ul>
+            <li>
+                <strong>Master of Science in Computer Science</strong>, University of Texas at Arlington
+                <ul>
+                    <li><strong>Key Courses:</strong> Advanced Machine Learning, Data Structures & Algorithms, Big Data, AI, Cloud Computing, Neural Networks.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Graduate Diploma in Deep Learning</strong>, University of Texas at Arlington
+                <ul>
+                    <li><strong>Highlights:</strong> Neural Networks, Computer Vision, Data Analysis & Modeling Techniques.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>B.Tech in Computer Science and Engineering</strong>, REVA University
+            </li>
+        </ul>
+
+        <h3>Professional Experience</h3>
+        <ul>
+            <li>
+                <em>Machine Learning & GenAI Engineer</em>, <a href="https://www.att.com" class="company-link" target="_blank">AT&T</a>
+                <ul>
+                    <li>Engineered AT&T's Agentic Foundry (AAW 2.0)  a LangGraph-based multi-agent orchestration framework automating 85+ enterprise workflows with decoupled reasoning, dynamic tool discovery, and autonomous error remediation</li>
+                    <li>Architected modular Python microservices with multi-tenant isolation, enabling domain experts to author natural-language workflows without code intervention while maintaining strict enterprise boundaries</li>
+                    <li>Built end-to-end agent pipeline (Retrieval, Triage/Planner, Validation, Task Runner, Remediation, Summarization) with Golden Workflow learning, reducing manual design overhead and elevating system reliability through reusable automation blueprints</li>
+                </ul>
+            </li>
+            <li>
+                <em>Automation Engineer</em>, <a href="https://www.microsoft.com" class="company-link" target="_blank">Microsoft</a>
+                <ul>
+                    <li>Architected event-driven multi-agent framework on AKS with LangGraph + Azure Functions, achieving 99.92% availability</li>
+                    <li>Deployed GPU model serving with Triton + vLLM, delivering ~2× throughput and 35–50% lower cost/1k tokens</li>
+                    <li>Built hybrid retrieval system reducing unsupported answers by 30%, citation pass rate improved from 69% → 92%</li>
+                </ul>
+            </li>
+            <li>
+                <em>AI Engineer</em>, <a href="https://www.optum.com" class="company-link" target="_blank">Optum</a>
+                <ul>
+                    <li>Built HIPAA/GDPR-compliant drug-discovery platform unifying PDB/ChEMBL/PubChem, TCGA/GEO, ClinicalTrials.gov</li>
+                    <li>Accelerated target discovery by ~20% using AlphaFold-style structural features with genomic Transformers</li>
+                    <li>Improved trial recruitment with GraphSAGE/GAT and BioBERT/Med7, achieving sub-second updates via Kafka + Flink</li>
+                </ul>
+            </li>
+            <li>
+                <em>Machine Learning Engineer</em>, <a href="https://www.quora.com" class="company-link" target="_blank">Quora</a>
+                <ul>
+                    <li>Shipped production recommender stack with two-stage ANN retrieval (FAISS/Pinecone) and learned ranking</li>
+                    <li>Built real-time features at scale using Kafka/Flink pipelines with online/offline feature store parity</li>
+                    <li>Optimized for multiple objectives (CTR, read time, quality, fairness) using multi-task learning</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Publications and Research Papers</h3>
+        <ul>
+            <li>
+                <strong>Low-Level GPU Profiling & Kernel Debugging</strong> (Published)
+                <ul>
+                    <li>Developed systematic profiling playbook using nvprof, Nsight Systems/Compute, and NCCL traces to pinpoint bottlenecks in warp divergence, uncoalesced memory, and launch overhead</li>
+                    <li>Delivered kernel-level improvements (kernel fusion, shared-mem tiling, async copy, CUDA Graphs) achieving double-digit latency reductions and significant throughput gains on inference workloads</li>
+                    <li>Packaged optimizations as CI performance gates and production runbooks for deployment teams</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Automation Pipelines</strong> (Published)
+                <ul>
+                    <li>Architected event-driven multi-agent pipeline with sagas, retries, and idempotent checkpoints reducing turnaround from hours to minutes</li>
+                    <li>Cut SME prep time by ~60% for document generation and evaluation workflows</li>
+                    <li>Implemented quality at scale with offline eval harness (pass@k, citation correctness, hallucination rate) and guardrails (RAG attribution/NLI checks)</li>
+                    <li>Raised citation pass rate and lowered unsupported outputs on held-out corpora</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Key Projects</h3>
+        <ul>
+            <li>
+                <strong>Custom Transformer Training Pipeline</strong>
+                <ul>
+                    <li>Developed transformer-based language model entirely from scratch using PyTorch</li>
+                    <li>Built end-to-end training infrastructure without relying on pre-trained weights</li>
+                    <li>Utilized distributed data parallelism (DDP) to scale training across multiple GPUs</li>
+                    <li>Designed custom data preprocessing pipelines and model architecture from the ground up</li>
+                </ul>
+            </li>
+            <li>
+                <strong>GPU Kernel Profiling & Optimization for Deep Learning</strong>
+                <ul>
+                    <li>Focused on low-level systems work to optimize deep learning inference by diagnosing and refining CUDA kernels</li>
+                    <li>Used profiling tools such as nvprof, Nsight, and NCCL to analyze GPU performance</li>
+                    <li>Implemented custom CUDA kernel enhancements resulting in up to 25% reduction in inference latency</li>
+                    <li>Leveraged kernel debugging techniques to streamline performance bottlenecks</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Skills</h3>
+        <div class="skills-grid">
+            <div class="skill-logo">
+                <img src="images/techskills/python.svg" alt="Python" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/java.svg" alt="Java" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/go.svg" alt="Go" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/cuda.svg" alt="CUDA" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/cpp.svg" alt="C++" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/tensorflow.svg" alt="TensorFlow" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/pytorch.svg" alt="PyTorch" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/keras.svg" alt="Keras" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/langchain.svg" alt="LangChain" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/langgraph.svg" alt="LangGraph" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/aws.svg" alt="AWS" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/azure.svg" alt="Azure" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/docker.svg" alt="Docker" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/kubernetes.svg" alt="Kubernetes" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/kafka.svg" alt="Kafka" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/flink.svg" alt="Flink" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/spark.svg" alt="Spark" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/triton.svg" alt="Triton" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/vllm.svg" alt="vLLM" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/tensorrt.svg" alt="TensorRT" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/faiss.svg" alt="FAISS" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/pinecone.svg" alt="Pinecone" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/mongodb.svg" alt="MongoDB" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/postgresql.svg" alt="PostgreSQL" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/redis.svg" alt="Redis" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/terraform.svg" alt="Terraform" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/git.svg" alt="Git" class="skill-logo-img">
+            </div>
+            <div class="skill-logo">
+                <img src="images/techskills/mlflow.svg" alt="MLflow" class="skill-logo-img">
+            </div>
+        </div>
+
+        <h3 id="blog">Blog Posts</h3>
+        <p>Coming soon! Check back for insights on AI/ML engineering, GPU optimization, and production ML systems.</p>
+
+        <h3 id="projects">Projects</h3>
+        <ul>
+            <li><a href="#" class="blog-link">Custom Transformer Training Pipeline - Built from scratch with PyTorch DDP</a></li>
+            <li><a href="#" class="blog-link">GPU Kernel Optimization Framework - 25% latency reduction using CUDA</a></li>
+            <li><a href="#" class="blog-link">Multi-Agent Automation System - Event-driven pipeline with 99.92% availability</a></li>
+            <li><a href="#" class="blog-link">Hybrid RAG Retrieval System - 92% citation accuracy with Azure AI Search</a></li>
+        </ul>
+
+        <footer>
+            <p>© 2025 Chandra Alla. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
