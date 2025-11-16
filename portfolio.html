@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chandra Alla - AI/ML Engineer Portfolio</title>
+    <title>Chandra Alla - GenAI Engineer Portfolio</title>
     <style>
         * {
             margin: 0;
@@ -88,7 +88,7 @@
             margin-top: 2rem;
             margin-bottom: 0.4rem;
             color: #1a1a1a;
-            font-weight: 500;
+            font-weight: 700;
         }
 
         .about-section {
@@ -313,13 +313,10 @@
         }
 
         @media (max-width: 968px) {
-            .about-section {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
             .profile-image, .profile-placeholder {
-                margin: 0 auto;
+                float: none;
+                margin: 0 auto 1.5rem;
+                display: block;
             }
 
             .skills-grid {
@@ -371,17 +368,22 @@
         <div class="about-section">
             <img src="profile.jpg" alt="Chandra A" class="profile-image">
             <p>
-                I'm a Machine Learning & GenAI Engineer with hands-on experience applying Agentic AI at enterprise scale. At AT&T, I helped engineer the Agentic Foundry (AAW 2.0) a LangGraph-based multi-agent automation framework orchestrating retrieval, reasoning, validation, and remediation across 85+ complex workflows.
+                I'm pioneering AI-driven enterprise automation that transforms how large organizations operate. Currently at AT&T, I'm building systems that learn from human experts and autonomously execute complex workflows across mainframe and web systems turning what once took hours into automated processes that complete in minutes.
             </p>
             <p>
-                With an MBA foundation and strong technical depth, I bridge the gap between strategy and implementation, designing scalable AI systems that deliver measurable business impact. Passionate about building next-generation GenAI applications, I thrive at the intersection of intelligent automation, system design, and applied LLM innovation.
+                My work centers on multi-agent AI systems powered by LangGraph orchestration, Retrieval-Augmented Generation (RAG), and vector databases. I design platforms where AI doesn't just assist but learns, adapts, and acts autonomously. When a domain expert records a workflow, my systems analyze it, generate semantic embeddings, and store it as reusable intelligence. When similar scenarios emerge, the AI retrieves and executes the optimal workflow without human intervention creating a continuously evolving automation network.
+            </p>
+            <p>
+                With deep technical expertise in production ML systems, GPU optimization, and distributed computing combined with strategic thinking from my business foundation, I build scalable AI solutions that deliver measurable enterprise impact. I thrive at the intersection of cutting-edge research and real-world deployment, converting decades of procedural knowledge into intelligent, self-improving systems that scale human expertise infinitely.
             </p>
             <div class="social-links">
                 <a href="mailto:chandraalla72@gmail.com">Email</a>
                 <span>/</span>
                 <a href="https://github.com/chandraalla" target="_blank">Github</a>
                 <span>/</span>
-                <a href="https://linkedin.com/in/chandra-a" target="_blank">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/chandra-alla/" target="_blank">LinkedIn</a>
+                <span>/</span>
+                <a href="https://scholar.google.com/citations?user=Z98B-n8AAAAJ&hl=en" target="_blank">Google Scholar</a>
                 <span>/</span>
                 <a href="tel:+19452070833">Phone: (945) 207-0833</a>
             </div>
@@ -409,15 +411,15 @@
         <h3>Professional Experience</h3>
         <ul>
             <li>
-                <em>Machine Learning & GenAI Engineer</em>, <a href="https://www.att.com" class="company-link" target="_blank">AT&T</a>
+                <strong>GenAI Engineer</strong>, <a href="https://www.att.com" class="company-link" target="_blank">AT&T</a>
                 <ul>
-                    <li>Engineered AT&T's Agentic Foundry (AAW 2.0)  a LangGraph-based multi-agent orchestration framework automating 85+ enterprise workflows with decoupled reasoning, dynamic tool discovery, and autonomous error remediation</li>
+                    <li>Engineered AT&T's Agentic Foundry (AAW 2.0) — a LangGraph-based multi-agent orchestration framework automating 85+ enterprise workflows with decoupled reasoning, dynamic tool discovery, and autonomous error remediation</li>
                     <li>Architected modular Python microservices with multi-tenant isolation, enabling domain experts to author natural-language workflows without code intervention while maintaining strict enterprise boundaries</li>
                     <li>Built end-to-end agent pipeline (Retrieval, Triage/Planner, Validation, Task Runner, Remediation, Summarization) with Golden Workflow learning, reducing manual design overhead and elevating system reliability through reusable automation blueprints</li>
                 </ul>
             </li>
             <li>
-                <em>Automation Engineer</em>, <a href="https://www.microsoft.com" class="company-link" target="_blank">Microsoft</a>
+                <strong>Automation Engineer</strong>, <a href="https://www.microsoft.com" class="company-link" target="_blank">Microsoft</a>
                 <ul>
                     <li>Architected event-driven multi-agent framework on AKS with LangGraph + Azure Functions, achieving 99.92% availability</li>
                     <li>Deployed GPU model serving with Triton + vLLM, delivering ~2× throughput and 35–50% lower cost/1k tokens</li>
@@ -425,7 +427,7 @@
                 </ul>
             </li>
             <li>
-                <em>AI Engineer</em>, <a href="https://www.optum.com" class="company-link" target="_blank">Optum</a>
+                <strong>AI Engineer</strong>, <a href="https://www.optum.com" class="company-link" target="_blank">Optum</a>
                 <ul>
                     <li>Built HIPAA/GDPR-compliant drug-discovery platform unifying PDB/ChEMBL/PubChem, TCGA/GEO, ClinicalTrials.gov</li>
                     <li>Accelerated target discovery by ~20% using AlphaFold-style structural features with genomic Transformers</li>
@@ -433,7 +435,7 @@
                 </ul>
             </li>
             <li>
-                <em>Machine Learning Engineer</em>, <a href="https://www.quora.com" class="company-link" target="_blank">Quora</a>
+                <strong>Machine Learning Engineer</strong>, <a href="https://www.quora.com" class="company-link" target="_blank">Quora</a>
                 <ul>
                     <li>Shipped production recommender stack with two-stage ANN retrieval (FAISS/Pinecone) and learned ranking</li>
                     <li>Built real-time features at scale using Kafka/Flink pipelines with online/offline feature store parity</li>
@@ -487,89 +489,88 @@
 
         <h3>Skills</h3>
         <div class="skills-grid">
+            <!-- Core Language -->
             <div class="skill-logo">
-                <img src="images/techskills/python.svg" alt="Python" class="skill-logo-img">
+                <img src="images/techskills/Python.svg.png" alt="Python" class="skill-logo-img">
+            </div>
+
+            <!-- ML/DL Frameworks -->
+            <div class="skill-logo">
+                <img src="images/techskills/Pytourch.png" alt="PyTorch" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/java.svg" alt="Java" class="skill-logo-img">
+                <img src="images/techskills/tensorflow.png" alt="TensorFlow" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/go.svg" alt="Go" class="skill-logo-img">
+                <img src="images/techskills/keras.png" alt="Keras" class="skill-logo-img">
+            </div>
+
+            <!-- GenAI/LLM Tools -->
+            <div class="skill-logo">
+                <img src="images/techskills/langchain.png.avif" alt="LangChain" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/cuda.svg" alt="CUDA" class="skill-logo-img">
+                <img src="images/techskills/hugginface.png" alt="Hugging Face" class="skill-logo-img">
+            </div>
+
+            <!-- GPU/Performance -->
+            <div class="skill-logo">
+                <img src="images/techskills/CUDA.jpg" alt="CUDA" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/cpp.svg" alt="C++" class="skill-logo-img">
+                <img src="images/techskills/vllm.png" alt="vLLM" class="skill-logo-img">
+            </div>
+
+            <!-- Vector Databases -->
+            <div class="skill-logo">
+                <img src="images/techskills/faiss.png" alt="FAISS" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/tensorflow.svg" alt="TensorFlow" class="skill-logo-img">
+                <img src="images/techskills/pinecone.jpg" alt="Pinecone" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/pytorch.svg" alt="PyTorch" class="skill-logo-img">
+                <img src="images/techskills/chromadb.webp" alt="ChromaDB" class="skill-logo-img">
+            </div>
+
+            <!-- Cloud & Containers -->
+            <div class="skill-logo">
+                <img src="images/techskills/aws.png" alt="AWS" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/keras.svg" alt="Keras" class="skill-logo-img">
+                <img src="images/techskills/Azure.svg.png" alt="Azure" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/langchain.svg" alt="LangChain" class="skill-logo-img">
+                <img src="images/techskills/Docker.png" alt="Docker" class="skill-logo-img">
+            </div>
+
+            <!-- Data Infrastructure -->
+            <div class="skill-logo">
+                <img src="images/techskills/kafka.png" alt="Kafka" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/langgraph.svg" alt="LangGraph" class="skill-logo-img">
+                <img src="images/techskills/pgadmin.png" alt="PostgreSQL" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/aws.svg" alt="AWS" class="skill-logo-img">
+                <img src="images/techskills/redis.png" alt="Redis" class="skill-logo-img">
+            </div>
+
+            <!-- MLOps & Tools -->
+            <div class="skill-logo">
+                <img src="images/techskills/mlflow.png" alt="MLflow" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/azure.svg" alt="Azure" class="skill-logo-img">
+                <img src="images/techskills/git.png" alt="Git" class="skill-logo-img">
+            </div>
+
+            <!-- Other Languages -->
+            <div class="skill-logo">
+                <img src="images/techskills/Go.png" alt="Go" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/docker.svg" alt="Docker" class="skill-logo-img">
+                <img src="images/techskills/c++.png" alt="C++" class="skill-logo-img">
             </div>
             <div class="skill-logo">
-                <img src="images/techskills/kubernetes.svg" alt="Kubernetes" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/kafka.svg" alt="Kafka" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/flink.svg" alt="Flink" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/spark.svg" alt="Spark" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/triton.svg" alt="Triton" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/vllm.svg" alt="vLLM" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/tensorrt.svg" alt="TensorRT" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/faiss.svg" alt="FAISS" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/pinecone.svg" alt="Pinecone" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/mongodb.svg" alt="MongoDB" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/postgresql.svg" alt="PostgreSQL" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/redis.svg" alt="Redis" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/terraform.svg" alt="Terraform" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/git.svg" alt="Git" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/mlflow.svg" alt="MLflow" class="skill-logo-img">
+                <img src="images/techskills/java.png" alt="Java" class="skill-logo-img">
             </div>
         </div>
 
