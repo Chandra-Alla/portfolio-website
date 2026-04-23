@@ -1,602 +1,1260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chandra Alla - GenAI Engineer Portfolio</title>
-    <link rel="icon" type="image/png" href="images/logo.png">
-    <link rel="apple-touch-icon" href="images/logo.png">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chandra Alla — GenAI Engineer</title>
+<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="apple-touch-icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&display=swap" rel="stylesheet">
+<!-- Fix scroll-to-top on refresh -->
+<script>if(history.scrollRestoration)history.scrollRestoration='manual';window.scrollTo(0,0);</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.8;
-            color: #333;
-            background: #ffffff;
-        }
+html,body{
+  background:#030308;
+  color:#e8eaf0;
+  font-family:'Geist',system-ui,sans-serif;
+  line-height:1.7;
+  overflow-x:hidden;
+}
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px 60px;
-        }
+/* ── Content shader canvas — fades in after hero ── */
+#bg-canvas{
+  position:fixed;inset:0;z-index:0;
+  pointer-events:none;
+  background:#010206;
+  opacity:0;
+  transition:opacity .55s ease;
+}
+body.content-active #bg-canvas{opacity:1;}
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
+/* ════════════════════
+   NAV
+════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 6vw;
+  transition:background .35s,backdrop-filter .35s;
+}
+.nav.solid{
+  background:rgba(3,3,8,.88);
+  backdrop-filter:blur(22px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.nav-brand{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.75);text-decoration:none;
+}
+.nav-links{display:flex;gap:32px;}
+.nav-links a{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);text-decoration:none;
+  transition:color .2s;
+}
+.nav-links a:hover{color:#fff;}
 
-        .header-title {
-            font-size: 1.8rem;
-            color: #0033cc;
-            font-weight: 500;
-            text-decoration: none;
-            display: block;
-        }
+/* ════════════════════
+   HERO
+════════════════════ */
+.hero{
+  position:relative;height:100vh;min-height:760px;
+  overflow:hidden;background:#030308;z-index:1;
+}
+/* plasma canvas fills the hero */
+#cv-plasma{position:absolute;inset:0;width:100%;height:100%;}
 
-        .header-title:hover {
-            text-decoration: none;
-            color: #0033cc;
-        }
+/* gradient fade plasma → content */
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:240px;
+  background:linear-gradient(to bottom,transparent,#030308);
+  z-index:3;pointer-events:none;
+}
 
-        .header-tagline {
-            font-size: 0.75rem;
-            color: #666;
-            font-weight: 400;
-            margin-top: 0.25rem;
-        }
+/* ── Hero 2-col grid — name top-left, quote right ── */
+.hero-inner{
+  position:absolute;inset:0;z-index:4;
+  display:block;
+  padding:13vh 3vw 4vh;
+}
+.hero-left{
+  display:flex;
+  flex-direction:column;
+  min-height:calc(100vh - 17vh);
+  width:100%;
+  max-width:none;
+}
 
-        .header-nav {
-            display: flex;
-            gap: 35px;
-        }
+/* NAME */
+.hero-name{
+  font-family:'Geist',sans-serif;
+  font-size:clamp(46px,6vw,112px);
+  font-weight:600;letter-spacing:-.065em;
+  color:#fff;line-height:.86;
+  margin:0 0 clamp(36px,5vh,72px);
+  max-width:100%;
+}
+.hero-name em{font-family:'Fraunces',serif;font-weight:400;font-style:italic;}
 
-        .header-nav a {
-            color: #333;
-            text-decoration: none;
-            font-size: 1.05rem;
-            transition: color 0.3s;
-        }
+/* AT&T brand badge — sits under the name */
+.hero-brand-line{
+  display:flex;align-items:center;gap:10px;
+  margin-top:4px;
+}
+.hero-brand-badge{
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:#fff;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.18);
+  padding:5px 14px;border-radius:6px;
+}
+.hero-brand-role{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.38);
+}
 
-        .header-nav a:hover {
-            color: #0033cc;
-        }
+/* BIG rotating quote — stacked under the intro copy */
+.hero-big-quote{
+  margin-top:0;
+  width:100%;
+  max-width:none;
+  min-height:auto;
+  color:#fff;
+  transition:none;
+}
+.hero-big-quote .hero-quote-line{
+  display:block;
+  white-space:nowrap;
+  font-family:'Geist',sans-serif;
+  font-size:clamp(52px,8vw,118px);
+  font-weight:500;
+  line-height:1.02;
+  letter-spacing:-.06em;
+}
+.hero-big-quote .hero-quote-line-italic{
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:clamp(48px,7.2vw,108px);
+  line-height:1.04;
+  letter-spacing:-.04em;
+  margin-top:.08em;
+}
+.hero-big-quote .hero-quote-line-wide{
+  margin-top:.1em;
+  font-size:clamp(52px,8vw,118px);
+}
+.hero-big-quote .hero-quote-line-support{
+  white-space:normal;
+  max-width:min(1100px,88vw);
+  font-size:clamp(24px,3vw,44px);
+  line-height:1.18;
+  letter-spacing:-.03em;
+  color:rgba(232,234,240,.9);
+}
+.hero-big-quote .hero-quote-line-wide + .hero-quote-line-support{
+  margin-top:1.1em;
+}
+.hero-big-quote .hero-quote-line-support + .hero-quote-line-support{
+  margin-top:.18em;
+}
+.hero-big-quote.fading{opacity:1;}
 
-        h1 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #1a1a1a;
-            font-weight: 600;
-        }
+/* ── Left column additions ── */
+.hero-bio{
+  margin-top:0;
+  font-family:'Geist',sans-serif;
+  font-size:clamp(19px,1.9vw,31px);
+  color:rgba(232,234,240,.72);
+  line-height:1.45;
+  max-width:980px;
+}
+.hero-bio-typed{
+  min-height:3.2em;
+}
+.hero-bio-typed #typed-bio{
+  display:inline;
+}
+.hero-socials{
+  display:flex;gap:12px;flex-wrap:wrap;
+  margin-top:4px;
+}
+.hero-socials a{
+  position:relative;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;
+  color:rgba(255,255,255,.92);text-decoration:none;
+  padding:10px 18px;
+  background:rgba(125,211,252,.08);
+  border:1px solid rgba(125,211,252,.32);
+  border-radius:999px;
+  box-shadow:0 0 0 0 rgba(125,211,252,.45),0 0 18px rgba(125,211,252,.22),inset 0 0 10px rgba(125,211,252,.08);
+  animation:heroSocialPulse 2.6s ease-in-out infinite;
+  transition:color .25s,border-color .25s,background .25s,box-shadow .25s,transform .25s;
+}
+.hero-socials a:nth-child(2){animation-delay:.3s;}
+.hero-socials a:nth-child(3){animation-delay:.6s;}
+.hero-socials a:nth-child(4){animation-delay:.9s;}
+.hero-socials a:hover{
+  color:#e0f2fe;
+  background:rgba(125,211,252,.18);
+  border-color:rgba(125,211,252,.7);
+  box-shadow:0 0 0 3px rgba(125,211,252,.18),0 0 28px rgba(125,211,252,.55),inset 0 0 14px rgba(125,211,252,.2);
+  transform:translateY(-1px);
+}
+@keyframes heroSocialPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(125,211,252,.35),0 0 16px rgba(125,211,252,.2),inset 0 0 10px rgba(125,211,252,.08);}
+  50%{box-shadow:0 0 0 4px rgba(125,211,252,0),0 0 26px rgba(125,211,252,.42),inset 0 0 14px rgba(125,211,252,.16);}
+}
 
-        h2 {
-            font-size: 1.35rem;
-            margin-top: 0rem;
-            margin-bottom: 0.4rem;
-            color: #1a1a1a;
-            font-weight: 500;
-        }
+.hero-detail-stack{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  margin-top:28px;
+  margin-bottom:clamp(32px,5vh,64px);
+  max-width:980px;
+}
 
-        h3 {
-            font-size: 1.15rem;
-            margin-top: 2rem;
-            margin-bottom: 0.4rem;
-            color: #1a1a1a;
-            font-weight: 700;
-        }
+/* ── Detail stack — 2×2 stats grid ── */
+.hero-stats-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:26px;
+  border-top:1px solid rgba(255,255,255,.14);
+  margin-top:auto;
+  padding-top:22px;
+  width:100%;
+  max-width:100%;
+}
+.hero-stat{
+  padding:0;
+  background:none;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+}
+.hero-stat b{
+  display:block;
+  font-family:'Geist',sans-serif;
+  font-size:clamp(26px,2.1vw,42px);
+  font-weight:600;
+  color:#fff;
+  letter-spacing:-.02em;
+  margin-bottom:2px;
+}
 
-        .about-section {
-            display: block;
-            margin-bottom: 2rem;
-        }
+.q-cursor{
+  display:inline-block;width:1.5px;height:.9em;
+  background:#7dd3fc;
+  margin-left:2px;flex-shrink:0;vertical-align:middle;
+  animation:qblink .85s step-end infinite;
+}
+.hero-bio-cursor{
+  width:2px;
+  height:.92em;
+  background:rgba(255,255,255,.86);
+  margin-left:4px;
+}
+@keyframes qblink{0%,100%{opacity:1}50%{opacity:0}}
 
-        .about-section::after {
-            content: "";
-            display: block;
-            clear: both;
-        }
+/* ════════════════════
+   CONTENT
+════════════════════ */
+.content{position:relative;z-index:1;}
+.section{
+  width:min(92vw,1640px);margin:0 auto;
+  padding:88px 0;
+}
+.section+.section{border-top:1px solid rgba(255,255,255,.06);}
 
-        .about-section p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
+.sec-label{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:28px;
+  display:flex;align-items:center;gap:10px;
+}
+.sec-label::before{content:'';width:16px;height:1px;background:currentColor;}
 
-        .profile-image {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: none;
-            float: right;
-            margin-left: 2rem;
-            transition: 0.5s all ease-in-out;
-        }
+h2{
+  font-family:'Geist',sans-serif;
+  font-size:clamp(26px,3.2vw,44px);
+  font-weight:400;letter-spacing:-.025em;color:#fff;
+  margin-bottom:28px;
+}
+h2 em{font-family:'Fraunces',serif;font-style:italic;font-weight:300;}
+h3{
+  font-family:'Geist',sans-serif;font-size:17px;
+  font-weight:500;color:#c8cad4;
+  margin-top:40px;margin-bottom:14px;
+}
+p{color:rgba(232,234,240,.68);line-height:1.82;margin-bottom:14px;}
 
-        .profile-image:hover {
-            transform: scale(1.05) rotate(2deg);
-        }
+/* about */
+.about-grid{display:grid;grid-template-columns:1fr 230px;gap:64px;align-items:start;}
+.profile-img{
+  width:230px;height:230px;border-radius:50%;object-fit:cover;
+  border:1px solid rgba(255,255,255,.1);
+  transition:.4s ease;
+}
+.profile-img:hover{transform:scale(1.04) rotate(1.5deg);}
+.socials{display:flex;flex-wrap:wrap;gap:7px;margin-top:26px;}
+.socials a{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);text-decoration:none;
+  padding:7px 15px;border:1px solid rgba(255,255,255,.1);
+  border-radius:999px;transition:all .2s;
+}
+.socials a:hover{color:#7dd3fc;border-color:rgba(125,211,252,.4);}
 
-        .profile-placeholder {
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 5rem;
-            font-weight: 300;
-            border: 4px solid #e8e8e8;
-        }
+/* entries */
+.entry{margin-bottom:30px;padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.06);}
+.entry:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.entry-role{font-weight:500;font-size:17px;color:#e8eaf0;margin-bottom:3px;}
+.entry-org{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.12em;color:#3b82f6;text-transform:uppercase;margin-bottom:12px;
+}
+.entry-org a{color:inherit;text-decoration:none;}
+.entry-org a:hover{color:#7dd3fc;}
+.entry ul{margin-left:18px;}
+.entry li{color:rgba(232,234,240,.6);font-size:14.5px;line-height:1.75;margin-bottom:8px;}
 
-        .social-links {
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
+.case-study-group{
+  margin-top:28px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+.case-study-intro{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:rgba(232,234,240,.42);
+}
+.case-study-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+.case-study{
+  position:relative;
+  overflow:hidden;
+  padding:24px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    radial-gradient(circle at 100% 0%,rgba(59,130,246,.16),transparent 42%),
+    linear-gradient(180deg,rgba(16,19,34,.92),rgba(7,8,16,.98));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.case-study::after{
+  content:'';
+  position:absolute;
+  inset:auto -10% -38% auto;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(59,130,246,.14),transparent 68%);
+  pointer-events:none;
+}
+.case-eyebrow{
+  position:relative;
+  z-index:1;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#7dd3fc;
+  margin-bottom:10px;
+}
+.case-title{
+  position:relative;
+  z-index:1;
+  font-family:'Geist',sans-serif;
+  font-size:24px;
+  font-weight:500;
+  letter-spacing:-.03em;
+  color:#fff;
+  margin-bottom:12px;
+}
+.case-summary{
+  position:relative;
+  z-index:1;
+  font-size:15px;
+  line-height:1.8;
+  color:rgba(232,234,240,.72);
+  margin-bottom:16px;
+}
+.case-stat-row,.case-flow,.case-tags{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.case-stat,.case-step,.case-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  padding:8px 12px;
+  background:rgba(255,255,255,.04);
+}
+.case-step{
+  color:rgba(232,234,240,.72);
+  border-color:rgba(125,211,252,.18);
+}
+.case-block{
+  position:relative;
+  z-index:1;
+  margin-top:18px;
+}
+.case-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(232,234,240,.45);
+  margin-bottom:10px;
+}
+.case-block p{
+  font-size:14.5px;
+  line-height:1.8;
+  color:rgba(232,234,240,.68);
+  margin-bottom:0;
+}
+.case-study code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.92em;
+  color:#fff;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:6px;
+  padding:1px 5px;
+}
+.case-points{
+  margin:0 0 0 18px;
+}
+.case-points li{
+  margin-bottom:8px;
+}
 
-        .social-links a {
-            color: #1f14f5;
-            text-decoration: none;
-            font-size: 1rem;
-        }
+/* skills */
+.skills-grid{
+  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:18px;margin-top:24px;
+}
+.skill-item{
+  --skill-accent:125,211,252;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;
+  gap:18px;min-height:138px;
+  padding:18px;border-radius:18px;
+  border:1px solid rgba(255,255,255,.07);
+  background:
+    radial-gradient(circle at 100% 0%,rgba(var(--skill-accent),.22),transparent 46%),
+    linear-gradient(180deg,rgba(12,14,28,.9),rgba(6,7,15,.96));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  transition:border-color .22s,transform .22s,box-shadow .22s;
+}
+.skill-item::after{
+  content:'';position:absolute;right:-12%;bottom:-52%;
+  width:124px;height:124px;border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--skill-accent),.16),transparent 70%);
+  pointer-events:none;
+}
+.skill-item:hover{
+  border-color:rgba(var(--skill-accent),.5);
+  transform:translateY(-4px);
+  box-shadow:0 16px 36px rgba(3,5,14,.28),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.skill-icon{
+  position:relative;z-index:1;
+  width:72px;height:72px;border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.14);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.24),rgba(255,255,255,.09)),
+    rgba(24,27,41,.94);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 10px 24px rgba(0,0,0,.16);
+}
+.skill-icon img{
+  display:block;
+  max-width:48px;max-height:48px;
+  width:auto;height:auto;object-fit:contain;
+}
+.skill-item--wide .skill-icon img{
+  max-width:74px;max-height:30px;
+}
+.skill-item--badge .skill-icon{
+  align-items:center;
+  justify-content:center;
+  padding:0 10px;
+  background:
+    linear-gradient(180deg,rgba(var(--skill-accent),.58),rgba(var(--skill-accent),.26)),
+    linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04));
+}
+.skill-badge{
+  font-family:'JetBrains Mono',monospace;
+  font-size:15px;font-weight:700;
+  letter-spacing:.01em;
+  color:#fff;
+  text-transform:uppercase;
+}
+.skill-badge-wide{
+  font-size:13px;
+  letter-spacing:0;
+}
+.skill-badge-small{
+  font-size:14px;
+  letter-spacing:-.02em;
+}
+.skill-copy{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;gap:6px;
+}
+.skill-name{
+  font-family:'Geist',sans-serif;
+  font-size:15px;font-weight:500;line-height:1.1;
+  color:#fff;
+}
+.skill-meta{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(232,234,240,.42);
+}
 
-        .social-links a:hover {
-            text-decoration: underline;
-        }
+/* cards */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.card{
+  padding:26px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.02);
+  transition:border-color .2s,background .2s;
+}
+.card:hover{border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.04);}
+.card-title{font-weight:500;color:#e8eaf0;margin-bottom:8px;font-size:15px;}
+.card-body{font-size:13.5px;color:rgba(232,234,240,.5);line-height:1.65;}
 
-        .social-links span {
-            color: #666;
-            margin: 0 0.3rem;
-        }
+footer{
+  text-align:center;padding:56px 0 36px;
+  color:rgba(255,255,255,.2);font-size:12px;
+  border-top:1px solid rgba(255,255,255,.06);
+  font-family:'JetBrains Mono',monospace;letter-spacing:.08em;
+}
 
-        ul {
-            margin-left: 22px;
-            margin-top: 8px;
-        }
+body.content-active .nav.solid{
+  background:rgba(3,3,8,.88);
+  backdrop-filter:blur(22px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+body.content-active .nav-brand{
+  color:rgba(255,255,255,.75);
+}
+body.content-active .nav-links a{
+  color:rgba(255,255,255,.45);
+}
+body.content-active .nav-links a:hover{
+  color:#fff;
+}
+body.content-active .section+.section{
+  border-top:1px solid rgba(255,255,255,.06);
+}
+body.content-active .sec-label{
+  color:rgba(255,255,255,.3);
+}
+body.content-active h2{
+  color:#fff;
+}
+body.content-active h3{
+  color:#c8cad4;
+}
+body.content-active p{
+  color:rgba(232,234,240,.68);
+}
+body.content-active .profile-img{
+  border-color:rgba(255,255,255,.1);
+}
+body.content-active .socials a,
+body.content-active .hero-socials a{
+  color:rgba(255,255,255,.55);
+  border-color:rgba(255,255,255,.14);
+  background:rgba(255,255,255,.03);
+  box-shadow:none;
+  animation:none;
+}
+body.content-active .socials a:hover,
+body.content-active .hero-socials a:hover{
+  color:#fff;
+  border-color:rgba(125,211,252,.35);
+}
+body.content-active .entry{
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+body.content-active .entry-role{
+  color:#e8eaf0;
+}
+body.content-active .entry-org{
+  color:#3b82f6;
+}
+body.content-active .entry-org a:hover{
+  color:#7dd3fc;
+}
+body.content-active .entry li{
+  color:rgba(232,234,240,.6);
+}
+body.content-active .card{
+  border-color:rgba(255,255,255,.08);
+  background:rgba(255,255,255,.02);
+}
+body.content-active .skill-item{
+  border-color:rgba(255,255,255,.08);
+}
+body.content-active .skill-item:hover{
+  border-color:rgba(var(--skill-accent),.5);
+}
+body.content-active .skill-item img{
+  filter:none;
+}
+body.content-active .card:hover{
+  border-color:rgba(59,130,246,.3);
+  background:rgba(59,130,246,.04);
+}
+body.content-active .card-title{
+  color:#e8eaf0;
+}
+body.content-active .card-body{
+  color:rgba(232,234,240,.5);
+}
+body.content-active footer{
+  color:rgba(255,255,255,.2);
+  border-top:1px solid rgba(255,255,255,.06);
+}
 
-        li {
-            margin-bottom: 10px;
-            line-height: 1.7;
-        }
-
-        .company-link {
-            color: #0033cc;
-            text-decoration: none;
-        }
-
-        .company-link:hover {
-            text-decoration: underline;
-        }
-
-        .paper-link {
-            color: #0033cc;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-
-        .paper-link:hover {
-            text-decoration: underline;
-        }
-
-        .certifications-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .cert-item {
-            text-align: center;
-        }
-
-        .cert-badge {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f5f5f5;
-            border-radius: 50%;
-            font-size: 0.75rem;
-            color: #666;
-            padding: 10px;
-        }
-
-        .cert-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .cert-issuer {
-            font-size: 0.85rem;
-            color: #666;
-            font-style: italic;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 20px;
-            margin-top: 1rem;
-            margin-bottom: 2rem;
-            align-items: center;
-        }
-
-        .skill-logo {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .skill-logo-img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-logo-img:hover {
-            transform: scale(1.1);
-        }
-
-        .skill-logo-placeholder {
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: #666;
-            border: 2px dashed #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .skill-name {
-            font-size: 0.95rem;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .blog-item {
-            margin-bottom: 20px;
-        }
-
-        .blog-date {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-        }
-
-        .blog-link {
-            color: #0033cc;
-            text-decoration: none;
-            font-size: 1rem;
-        }
-
-        .blog-link:hover {
-            text-decoration: underline;
-        }
-
-        .view-all {
-            color: #0033cc;
-            text-decoration: none;
-            font-size: 1rem;
-            margin-top: 10px;
-            display: inline-block;
-        }
-
-        .view-all:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            text-align: center;
-            padding: 60px 0 40px;
-            color: #999;
-            font-size: 0.9rem;
-            margin-top: 60px;
-            border-top: 1px solid #eee;
-        }
-
-        @media (max-width: 968px) {
-            .profile-image, .profile-placeholder {
-                float: none;
-                margin: 0 auto 1.5rem;
-                display: block;
-            }
-
-            .skills-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 30px 20px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px 30px;
-            }
-
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-
-            .skills-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .skills-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+/* responsive */
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr;}.profile-img{display:none;}
+  .skills-grid{grid-template-columns:repeat(4,1fr);}
+  .card-grid{grid-template-columns:1fr;}
+  .case-study-grid{grid-template-columns:1fr;}
+  .hero{min-height:980px;}
+  .hero-inner{padding:12vh 6vw 4vh;}
+  .hero-left{min-height:calc(100vh - 16vh);}
+  .hero-big-quote .hero-quote-line{white-space:normal;font-size:clamp(44px,7.6vw,96px);line-height:1.04;}
+  .hero-big-quote .hero-quote-line-italic{font-size:clamp(40px,6.8vw,86px);line-height:1.06;margin-top:.1em;}
+  .hero-big-quote .hero-quote-line-wide{font-size:clamp(44px,7.6vw,96px);margin-top:.12em;}
+  .hero-big-quote .hero-quote-line-support{font-size:clamp(22px,3.6vw,34px);max-width:100%;line-height:1.22;}
+  .hero-name{font-size:clamp(42px,8.5vw,82px);margin-bottom:clamp(28px,4vh,56px);}
+  .skill-item{min-height:132px;}
+  .hero-bio,.hero-detail-stack{max-width:100%;}
+  .hero-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;}
+}
+@media(max-width:600px){
+  .skills-grid{grid-template-columns:repeat(2,1fr);}
+  .hero{min-height:1020px;}
+  .hero-inner{padding:11vh 5vw 4vh;}
+  .hero-name{font-size:clamp(38px,12vw,64px);line-height:.9;margin-bottom:clamp(24px,3.5vh,44px);}
+  .case-study{padding:20px;}
+  .case-title{font-size:22px;}
+  .case-summary,.case-block p{font-size:14px;}
+  .skill-item{min-height:124px;padding:16px;}
+  .skill-icon{width:64px;height:64px;border-radius:18px;}
+  .skill-icon img{max-width:38px;max-height:38px;}
+  .skill-item--wide .skill-icon img{max-width:64px;max-height:26px;}
+  .skill-name{font-size:14px;}
+  .skill-meta{font-size:9px;}
+  .hero-big-quote .hero-quote-line{font-size:clamp(38px,10.5vw,64px);line-height:1.06;}
+  .hero-big-quote .hero-quote-line-italic{font-size:clamp(34px,9.5vw,58px);line-height:1.08;margin-top:.12em;}
+  .hero-big-quote .hero-quote-line-wide{font-size:clamp(38px,10.5vw,64px);margin-top:.14em;}
+  .hero-big-quote .hero-quote-line-support{font-size:clamp(20px,5.2vw,28px);line-height:1.26;}
+  .hero-bio{font-size:clamp(17px,4.8vw,22px);}
+  .hero-bio-typed{min-height:4.4em;}
+  .hero-socials a{font-size:11px;padding:8px 14px;}
+  .hero-stats-grid{grid-template-columns:1fr 1fr;gap:16px;}
+  .hero-stat b{font-size:clamp(24px,7vw,34px);}
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div>
-                <a href="#home" class="header-title">Chandra Alla</a>
-                <div class="header-tagline">Applied Agentic AI @ Enterprise Scale | MSC | Passionate Engineer | Fluent in Both Boardroom Strategy & Building Code</div>
-            </div>
-            <nav class="header-nav">
-                <a href="#home">Home</a>
-                <a href="#blog">Blog</a>
-                <a href="#projects">Projects</a>
-            </nav>
-        </header>
 
-        <h1>Home</h1>
+<!-- fixed particle field — full page -->
+<canvas id="bg-canvas"></canvas>
 
-        <h2>About Me</h2>
-        <div class="about-section">
-            <img src="profile.jpg" alt="Chandra A" class="profile-image">
-            <p>
-                I'm pioneering AI-driven enterprise automation that transforms how large organizations operate. Currently at AT&T, I'm building systems that learn from human experts and autonomously execute complex workflows across mainframe and web systems turning what once took hours into automated processes that complete in minutes.
-            </p>
-            <p>
-                My work centers on multi-agent AI systems powered by LangGraph orchestration, Retrieval-Augmented Generation (RAG), and vector databases. I design platforms where AI doesn't just assist but learns, adapts, and acts autonomously. When a domain expert records a workflow, my systems analyze it, generate semantic embeddings, and store it as reusable intelligence. When similar scenarios emerge, the AI retrieves and executes the optimal workflow without human intervention creating a continuously evolving automation network.
-            </p>
-            <p>
-                With deep technical expertise in production ML systems, GPU optimization, and distributed computing combined with strategic thinking from my business foundation, I build scalable AI solutions that deliver measurable enterprise impact. I thrive at the intersection of cutting-edge research and real-world deployment, converting decades of procedural knowledge into intelligent, self-improving systems that scale human expertise infinitely.
-            </p>
-            <div class="social-links">
-                <a href="mailto:chandraalla72@gmail.com">Email</a>
-                <span>/</span>
-                <a href="https://github.com/Chandra-Alla" target="_blank">GitHub</a>
-                <span>/</span>
-                <a href="https://www.linkedin.com/in/chandra-alla/" target="_blank">LinkedIn</a>
-                <span>/</span>
-                <a href="https://scholar.google.com/citations?user=Z98B-n8AAAAJ&hl=en" target="_blank">Google Scholar</a>
-                <span>/</span>
-                <a href="tel:+19452070833">Phone: (945) 207-0833</a>
-            </div>
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-brand">Chandra Alla</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#research">Research</a>
+    <a href="#projects">Projects</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="cv-plasma"></canvas>
+
+  <div class="hero-inner">
+    <!-- Hero intro -->
+    <div class="hero-left">
+      <h1 class="hero-name">Chandra <em>Alla.</em></h1>
+      <div class="hero-big-quote" id="big-quote">
+        <span class="hero-quote-line">Building memory</span>
+        <span class="hero-quote-line hero-quote-line-italic">into machines.</span>
+        <span class="hero-quote-line hero-quote-line-wide">Shipping enterprise AI.</span>
+        <span class="hero-quote-line hero-quote-line-support">While everyone scales parameters,</span>
+        <span class="hero-quote-line hero-quote-line-support">I'm optimizing what the model chooses to forget.</span>
+      </div>
+      <div class="hero-detail-stack">
+        <p class="hero-bio hero-bio-typed"><span id="typed-bio"></span><span class="q-cursor hero-bio-cursor"></span></p>
+        <div class="hero-socials">
+          <a href="mailto:chandraalla72@gmail.com">Email</a>
+          <a href="https://github.com/Chandra-Alla" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/chandra-alla/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://scholar.google.com/citations?user=Z98B-n8AAAAJ&hl=en" target="_blank" rel="noopener">Scholar</a>
         </div>
-
-        <h3>Education</h3>
-        <ul>
-            <li>
-                <strong>Master of Science in Computer Science</strong>, University of Texas at Arlington
-                <ul>
-                    <li><strong>Key Courses:</strong> Advanced Machine Learning, Data Structures & Algorithms, Big Data, AI, Cloud Computing, Neural Networks.</li>
-                </ul>
-            </li>
-            <li>
-                <strong>Graduate Diploma in Deep Learning</strong>, University of Texas at Arlington
-                <ul>
-                    <li><strong>Highlights:</strong> Neural Networks, Computer Vision, Data Analysis & Modeling Techniques.</li>
-                </ul>
-            </li>
-            <li>
-                <strong>B.Tech in Computer Science and Engineering</strong>, REVA University
-            </li>
-        </ul>
-
-        <h3>Professional Experience</h3>
-        <ul>
-            <li>
-                <strong>GenAI Engineer</strong>, <a href="https://www.att.com" class="company-link" target="_blank">AT&T</a>
-                <ul>
-                    <li>Engineered AT&T's Agentic Foundry (AAW 2.0) — a LangGraph-based multi-agent orchestration framework automating 85+ enterprise workflows with decoupled reasoning, dynamic tool discovery, and autonomous error remediation</li>
-                    <li>Architected modular Python microservices with multi-tenant isolation, enabling domain experts to author natural-language workflows without code intervention while maintaining strict enterprise boundaries</li>
-                    <li>Built end-to-end agent pipeline (Retrieval, Triage/Planner, Validation, Task Runner, Remediation, Summarization) with Golden Workflow learning, reducing manual design overhead and elevating system reliability through reusable automation blueprints</li>
-                </ul>
-            </li>
-            <li>
-                <strong>Automation Engineer</strong>, <a href="https://www.microsoft.com" class="company-link" target="_blank">Microsoft</a>
-                <ul>
-                    <li>Architected event-driven multi-agent framework on AKS with LangGraph + Azure Functions, achieving 99.92% availability</li>
-                    <li>Deployed GPU model serving with Triton + vLLM, delivering ~2× throughput and 35–50% lower cost/1k tokens</li>
-                    <li>Built hybrid retrieval system reducing unsupported answers by 30%, citation pass rate improved from 69% → 92%</li>
-                </ul>
-            </li>
-            <li>
-                <strong>AI Engineer</strong>, <a href="https://www.optum.com" class="company-link" target="_blank">Optum</a>
-                <ul>
-                    <li>Built HIPAA/GDPR-compliant drug-discovery platform unifying PDB/ChEMBL/PubChem, TCGA/GEO, ClinicalTrials.gov</li>
-                    <li>Accelerated target discovery by ~20% using AlphaFold-style structural features with genomic Transformers</li>
-                    <li>Improved trial recruitment with GraphSAGE/GAT and BioBERT/Med7, achieving sub-second updates via Kafka + Flink</li>
-                </ul>
-            </li>
-            <li>
-                <strong>Machine Learning Engineer</strong>, <a href="https://www.quora.com" class="company-link" target="_blank">Quora</a>
-                <ul>
-                    <li>Shipped production recommender stack with two-stage ANN retrieval (FAISS/Pinecone) and learned ranking</li>
-                    <li>Built real-time features at scale using Kafka/Flink pipelines with online/offline feature store parity</li>
-                    <li>Optimized for multiple objectives (CTR, read time, quality, fairness) using multi-task learning</li>
-                </ul>
-            </li>
-        </ul>
-
-        <h3>Skills</h3>
-        <div class="skills-grid">
-            <!-- Core Language -->
-            <div class="skill-logo">
-                <img src="images/techskills/Python.svg.png" alt="Python" class="skill-logo-img">
-            </div>
-
-            <!-- ML/DL Frameworks -->
-            <div class="skill-logo">
-                <img src="images/techskills/Pytourch.png" alt="PyTorch" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/tensorflow.png" alt="TensorFlow" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/keras.png" alt="Keras" class="skill-logo-img">
-            </div>
-
-            <!-- GenAI/LLM Tools -->
-            <div class="skill-logo">
-                <img src="images/techskills/langchain.png.avif" alt="LangChain" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/hugginface.png" alt="Hugging Face" class="skill-logo-img">
-            </div>
-
-            <!-- GPU/Performance -->
-            <div class="skill-logo">
-                <img src="images/techskills/CUDA.jpg" alt="CUDA" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/vllm.png" alt="vLLM" class="skill-logo-img">
-            </div>
-
-            <!-- Vector Databases -->
-            <div class="skill-logo">
-                <img src="images/techskills/faiss.png" alt="FAISS" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/pinecone.jpg" alt="Pinecone" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/chromadb.webp" alt="ChromaDB" class="skill-logo-img">
-            </div>
-
-            <!-- Cloud & Containers -->
-            <div class="skill-logo">
-                <img src="images/techskills/aws.png" alt="AWS" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/Azure.svg.png" alt="Azure" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/Docker.png" alt="Docker" class="skill-logo-img">
-            </div>
-
-            <!-- Data Infrastructure -->
-            <div class="skill-logo">
-                <img src="images/techskills/kafka.png" alt="Kafka" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/pgadmin.png" alt="PostgreSQL" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/redis.png" alt="Redis" class="skill-logo-img">
-            </div>
-
-            <!-- MLOps & Tools -->
-            <div class="skill-logo">
-                <img src="images/techskills/mlflow.png" alt="MLflow" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/git.png" alt="Git" class="skill-logo-img">
-            </div>
-
-            <!-- Other Languages -->
-            <div class="skill-logo">
-                <img src="images/techskills/Go.png" alt="Go" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/c++.png" alt="C++" class="skill-logo-img">
-            </div>
-            <div class="skill-logo">
-                <img src="images/techskills/java.png" alt="Java" class="skill-logo-img">
-            </div>
-        </div>
-
-        <h3>Publications and Research Papers</h3>
-        <ul>
-            <li>
-                <strong>BudgetMem: Learning Selective Memory Policies for Cost-Efficient Long-Context Processing in Language Models</strong>
-                <ul>
-                    <li>Achieved 72% Memory Savings with Near-Perfect Performance – Developed BudgetMem, a novel memory-augmented AI system that reduces memory usage by 72.4% while maintaining 99% accuracy (only 1% F1 score drop) when processing long documents, enabling resource-constrained devices to handle book-length texts that previously required expensive, high-end hardware</li>
-                    <li>Democratizing AI: Running Advanced Language Models on $10/Month Hardware – Created a selective memory architecture that makes sophisticated long-context AI accessible to researchers and developers without expensive GPU infrastructure, validated on Google Colab to prove that intelligent memory management can replace brute-force computational power</li>
-                </ul>
-            </li>
-            <li>
-                <strong>Low-Level GPU Profiling & Kernel Debugging</strong>
-                <ul>
-                    <li>Developed systematic profiling playbook using nvprof, Nsight Systems/Compute, and NCCL traces to pinpoint bottlenecks in warp divergence, uncoalesced memory, and launch overhead</li>
-                    <li>Delivered kernel-level improvements (kernel fusion, shared-mem tiling, async copy, CUDA Graphs) achieving double-digit latency reductions and significant throughput gains on inference workloads</li>
-                    <li>Packaged optimizations as CI performance gates and production runbooks for deployment teams</li>
-                </ul>
-            </li>
-            <li>
-                <strong>Automation Pipelines</strong>
-                <ul>
-                    <li>Architected event-driven multi-agent pipeline with sagas, retries, and idempotent checkpoints reducing turnaround from hours to minutes</li>
-                    <li>Cut SME prep time by ~60% for document generation and evaluation workflows</li>
-                    <li>Implemented quality at scale with offline eval harness (pass@k, citation correctness, hallucination rate) and guardrails (RAG attribution/NLI checks)</li>
-                    <li>Raised citation pass rate and lowered unsupported outputs on held-out corpora</li>
-                </ul>
-            </li>
-        </ul>
-
-        <h3>Key Projects</h3>
-        <ul>
-            <li>
-                <strong>Custom Transformer Training Pipeline</strong>
-                <ul>
-                    <li>Developed transformer-based language model entirely from scratch using PyTorch</li>
-                    <li>Built end-to-end training infrastructure without relying on pre-trained weights</li>
-                    <li>Utilized distributed data parallelism (DDP) to scale training across multiple GPUs</li>
-                    <li>Designed custom data preprocessing pipelines and model architecture from the ground up</li>
-                </ul>
-            </li>
-            <li>
-                <strong>GPU Kernel Profiling & Optimization for Deep Learning</strong>
-                <ul>
-                    <li>Focused on low-level systems work to optimize deep learning inference by diagnosing and refining CUDA kernels</li>
-                    <li>Used profiling tools such as nvprof, Nsight, and NCCL to analyze GPU performance</li>
-                    <li>Implemented custom CUDA kernel enhancements resulting in up to 25% reduction in inference latency</li>
-                    <li>Leveraged kernel debugging techniques to streamline performance bottlenecks</li>
-                </ul>
-            </li>
-        </ul>
-
-        <h3 id="blog">Blog Posts</h3>
-        <p>Coming soon! Check back for insights on AI/ML engineering, GPU optimization, and production ML systems.</p>
-
-        <h3 id="projects">Projects</h3>
-        <ul>
-            <li><a href="#" class="blog-link">Custom Transformer Training Pipeline - Built from scratch with PyTorch DDP</a></li>
-            <li><a href="#" class="blog-link">GPU Kernel Optimization Framework - 25% latency reduction using CUDA</a></li>
-            <li><a href="#" class="blog-link">Multi-Agent Automation System - Event-driven pipeline with 99.92% availability</a></li>
-            <li><a href="#" class="blog-link">Hybrid RAG Retrieval System - 92% citation accuracy with Azure AI Search</a></li>
-        </ul>
-
-        <footer>
-            <p>© 2025 Chandra Alla. All rights reserved.</p>
-        </footer>
+      </div>
+      <div class="hero-stats-grid">
+        <div class="hero-stat"><b>Dallas, TX</b>Based</div>
+        <div class="hero-stat"><b>AT&amp;T AI Foundry</b>Now</div>
+      </div>
     </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- About -->
+  <div class="section" id="about">
+    <div class="sec-label">About</div>
+    <div class="about-grid">
+      <div>
+        <h2>Building AI that <em>thinks</em> and ships.</h2>
+        <p>I'm pioneering AI-driven enterprise automation that transforms how large organizations operate. Currently at AT&T, I'm building systems that learn from human experts and autonomously execute complex workflows — turning what once took hours into automated processes that complete in minutes.</p>
+        <p>My work centers on multi-agent AI systems powered by LangGraph orchestration, Retrieval-Augmented Generation (RAG), and vector databases. When a domain expert records a workflow, my systems analyze it, generate semantic embeddings, and store it as reusable intelligence.</p>
+        <p>With deep expertise in production ML systems, GPU optimization, and distributed computing, I build scalable AI solutions that deliver measurable enterprise impact at the intersection of cutting-edge research and real-world deployment.</p>
+        <div class="socials">
+          <a href="mailto:chandraalla72@gmail.com">Email</a>
+          <a href="https://github.com/Chandra-Alla" target="_blank">GitHub</a>
+          <a href="https://www.linkedin.com/in/chandra-alla/" target="_blank">LinkedIn</a>
+          <a href="https://scholar.google.com/citations?user=Z98B-n8AAAAJ&hl=en" target="_blank">Scholar</a>
+          <a href="tel:+19452070833">(945) 207-0833</a>
+        </div>
+      </div>
+      <img src="profile.jpg" alt="Chandra Alla" class="profile-img">
+    </div>
+
+    <h3>Education</h3>
+    <div class="entry">
+      <div class="entry-role">Master of Science in Computer Science</div>
+      <div class="entry-org">University of Texas at Arlington</div>
+      <ul><li>Advanced Machine Learning · Data Structures &amp; Algorithms · Big Data · AI · Cloud Computing · Neural Networks</li></ul>
+    </div>
+    <div class="entry">
+      <div class="entry-role">Graduate Diploma in Deep Learning</div>
+      <div class="entry-org">University of Texas at Arlington</div>
+      <ul><li>Neural Networks · Computer Vision · Data Analysis &amp; Modeling Techniques</li></ul>
+    </div>
+    <div class="entry">
+      <div class="entry-role">B.Tech in Computer Science and Engineering</div>
+      <div class="entry-org">REVA University</div>
+    </div>
+  </div>
+
+  <!-- Experience -->
+  <div class="section" id="experience">
+    <div class="sec-label">Experience</div>
+    <h2>Professional <em>history.</em></h2>
+    <div class="entry">
+      <div class="entry-role">GenAI Engineer</div>
+      <div class="entry-org"><a href="https://www.att.com" target="_blank">AT&amp;T AI Foundry</a></div>
+      <ul>
+        <li>Built production-grade GenAI systems spanning enterprise workflow automation and schema-aware NL-to-SQL intelligence for internal business users.</li>
+        <li>Designed LangGraph orchestration, dynamic tool binding, human gating, evaluation pipelines, and failure recovery for real enterprise workflows.</li>
+        <li>Shipped systems with async control flow, observability, and business-facing outputs over internal tools, PostgreSQL metadata, and Snowflake data.</li>
+      </ul>
+      <div class="case-study-group">
+        <div class="case-study-intro">Selected AT&amp;T Systems</div>
+        <div class="case-study-grid">
+          <article class="case-study">
+            <div class="case-eyebrow">Enterprise Agent Platform</div>
+            <div class="case-title">AI Agentic Foundry</div>
+            <p class="case-summary">Production-grade multi-agent orchestration platform that automates enterprise workflows with stateful execution, tool calling, human-in-the-loop gating, and self-healing remediation.</p>
+            <div class="case-stat-row">
+              <span class="case-stat">85+ workflows</span>
+              <span class="case-stat">Interrupt / resume</span>
+              <span class="case-stat">Async gates</span>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Problem</div>
+              <p>Enterprise workflows are multi-step, non-deterministic, dependent on multiple systems, and prone to failures from bad inputs, API issues, or approval requirements. Rule-based automation breaks quickly on these edge cases.</p>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Solution</div>
+              <p>Designed a LangGraph-based 7-stage pipeline that decomposes requests into specialized agent responsibilities, isolates context, binds tools dynamically, pauses for approvals, and resumes after human or system events.</p>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Architecture</div>
+              <div class="case-flow">
+                <span class="case-step">Retrieval</span>
+                <span class="case-step">Planning</span>
+                <span class="case-step">Validation</span>
+                <span class="case-step">Execution</span>
+                <span class="case-step">Remediation</span>
+                <span class="case-step">Gates</span>
+                <span class="case-step">Summary</span>
+              </div>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Highlights</div>
+              <ul class="case-points">
+                <li>Dynamic tool registry with runtime discovery via <code>/v1/tools</code>, category-based routing, and tighter execution accuracy.</li>
+                <li>Error remediation agent captures failed step context, tool responses, and error messages to generate corrective actions instead of naive retries.</li>
+                <li>Human, timed, and system gates implemented with LangGraph interrupt/resume patterns and Azure Durable Functions.</li>
+              </ul>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Impact</div>
+              <ul class="case-points">
+                <li>Enabled automation across multiple enterprise workflows with production-grade async orchestration.</li>
+                <li>Reduced manual intervention through self-healing execution and approval-aware control flow.</li>
+                <li>Improved determinism with context isolation, tool binding, and structured stage transitions.</li>
+              </ul>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Stack</div>
+              <div class="case-tags">
+                <span class="case-tag">Python</span>
+                <span class="case-tag">FastAPI</span>
+                <span class="case-tag">LangGraph</span>
+                <span class="case-tag">LangChain</span>
+                <span class="case-tag">OpenAI / Azure OpenAI</span>
+                <span class="case-tag">PostgreSQL</span>
+                <span class="case-tag">ChromaDB</span>
+                <span class="case-tag">Docker</span>
+                <span class="case-tag">AKS</span>
+                <span class="case-tag">LangSmith</span>
+              </div>
+            </div>
+          </article>
+          <article class="case-study">
+            <div class="case-eyebrow">Enterprise Data Intelligence</div>
+            <div class="case-title">Customer Insights Agent (CIA)</div>
+            <p class="case-summary">Natural-language intelligence layer over enterprise Snowflake data that lets business users query complex datasets without writing SQL, while still returning structured, business-ready answers.</p>
+            <div class="case-stat-row">
+              <span class="case-stat">23+ tables</span>
+              <span class="case-stat">Schema-aware RAG</span>
+              <span class="case-stat">85+ golden cases</span>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Problem</div>
+              <p>Business users do not know SQL, schema design, or join logic, while enterprise data is spread across 23+ related tables with non-trivial relationships and domain-specific business rules.</p>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Solution</div>
+              <p>Built a LangGraph NL-to-SQL pipeline that retrieves schema context, resolves joins dynamically, triages unsupported requests, routes to an Ask Data API for SQL generation and execution, and summarizes the output for non-technical users.</p>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Architecture</div>
+              <div class="case-flow">
+                <span class="case-step">Setup</span>
+                <span class="case-step">Intent</span>
+                <span class="case-step">Table RAG</span>
+                <span class="case-step">Dataset Select</span>
+                <span class="case-step">Triage</span>
+                <span class="case-step">Enrichment</span>
+                <span class="case-step">SQL + Execute</span>
+                <span class="case-step">Summary</span>
+                <span class="case-step">Persist</span>
+              </div>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Highlights</div>
+              <ul class="case-points">
+                <li>Schema-aware RAG over table metadata using pgvector with HNSW indexing for fast retrieval of relevant tables.</li>
+                <li>ER relationship model for keys like <code>CUSTOMER_KEY</code>, <code>FAN_ID</code>, and <code>ACCT_ID</code> to support multi-table reasoning.</li>
+                <li>Answerability gate catches unsupported or missing-data scenarios before wasting cost on downstream SQL generation.</li>
+                <li>Five-stage evaluation system with 85+ golden cases, per-table analysis, and LLM-as-judge scoring for SQL and answer quality.</li>
+              </ul>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Impact</div>
+              <ul class="case-points">
+                <li>Enabled non-technical users to query enterprise data without depending on analysts for every question.</li>
+                <li>Improved SQL reliability through schema retrieval, join modeling, and structured evaluation loops.</li>
+                <li>Scaled the system across multiple business domains with a cleaner separation between orchestration and execution.</li>
+              </ul>
+            </div>
+            <div class="case-block">
+              <div class="case-label">Stack</div>
+              <div class="case-tags">
+                <span class="case-tag">Python</span>
+                <span class="case-tag">FastAPI</span>
+                <span class="case-tag">LangGraph</span>
+                <span class="case-tag">PostgreSQL</span>
+                <span class="case-tag">pgvector</span>
+                <span class="case-tag">Snowflake</span>
+                <span class="case-tag">LiteLLM</span>
+                <span class="case-tag">Azure OpenAI</span>
+                <span class="case-tag">Ragas</span>
+                <span class="case-tag">Docker</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+    <div class="entry">
+      <div class="entry-role">Automation Engineer</div>
+      <div class="entry-org"><a href="https://www.microsoft.com" target="_blank">Microsoft</a></div>
+      <ul>
+        <li>Architected event-driven multi-agent framework on AKS with LangGraph + Azure Functions — 99.92% availability</li>
+        <li>Deployed GPU model serving with Triton + vLLM: ~2× throughput, 35–50% lower cost/1k tokens</li>
+        <li>Built hybrid retrieval system; citation pass rate from 69% → 92%, unsupported answers down 30%</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-role">AI Engineer</div>
+      <div class="entry-org"><a href="https://www.optum.com" target="_blank">Optum</a></div>
+      <ul>
+        <li>Built HIPAA/GDPR-compliant drug-discovery platform unifying PDB/ChEMBL/PubChem, TCGA/GEO, ClinicalTrials.gov</li>
+        <li>Accelerated target discovery ~20% using AlphaFold-style structural features with genomic Transformers</li>
+        <li>GraphSAGE/GAT + BioBERT/Med7 for trial recruitment; sub-second updates via Kafka + Flink</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-role">Machine Learning Engineer</div>
+      <div class="entry-org"><a href="https://www.quora.com" target="_blank">Quora</a></div>
+      <ul>
+        <li>Production recommender stack: two-stage ANN retrieval (FAISS/Pinecone) + learned ranking</li>
+        <li>Real-time feature pipelines at scale — Kafka/Flink with online/offline feature store parity</li>
+        <li>Multi-task learning optimizing CTR, read time, quality, and fairness simultaneously</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div class="section" id="skills">
+    <div class="sec-label">Skills</div>
+    <h2>Tech <em>stack.</em></h2>
+    <div class="skills-grid">
+      <article class="skill-item" style="--skill-accent:55,118,171;">
+        <div class="skill-icon"><img src="images/techskills/brand/python.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Python</span><span class="skill-meta">Core Language</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:238,76,44;">
+        <div class="skill-icon"><img src="images/techskills/brand/pytorch.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">PyTorch</span><span class="skill-meta">Model Training</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:255,111,0;">
+        <div class="skill-icon"><img src="images/techskills/brand/tensorflow.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">TensorFlow</span><span class="skill-meta">Deep Learning</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:208,0,0;">
+        <div class="skill-icon"><img src="images/techskills/brand/keras.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Keras</span><span class="skill-meta">Model API</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:29,78,61;">
+        <div class="skill-icon"><img src="images/techskills/brand/langchain.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">LangChain</span><span class="skill-meta">LLM Orchestration</span></div>
+      </article>
+      <article class="skill-item skill-item--badge" style="--skill-accent:99,102,241;">
+        <div class="skill-icon"><span class="skill-badge skill-badge-wide">Llama</span></div>
+        <div class="skill-copy"><span class="skill-name">LlamaIndex</span><span class="skill-meta">Data Framework</span></div>
+      </article>
+      <article class="skill-item skill-item--badge" style="--skill-accent:16,185,129;">
+        <div class="skill-icon"><span class="skill-badge skill-badge-wide">Lite</span></div>
+        <div class="skill-copy"><span class="skill-name">LiteLLM</span><span class="skill-meta">Model Gateway</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:248,191,36;">
+        <div class="skill-icon"><img src="images/techskills/brand/huggingface.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Hugging Face</span><span class="skill-meta">Models &amp; Tokenizers</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:118,185,0;">
+        <div class="skill-icon"><img src="images/techskills/brand/nvidia.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">CUDA</span><span class="skill-meta">GPU Acceleration</span></div>
+      </article>
+      <article class="skill-item skill-item--badge" style="--skill-accent:99,102,241;">
+        <div class="skill-icon"><span class="skill-badge">vLLM</span></div>
+        <div class="skill-copy"><span class="skill-name">vLLM</span><span class="skill-meta">Inference Serving</span></div>
+      </article>
+      <article class="skill-item skill-item--badge" style="--skill-accent:245,158,11;">
+        <div class="skill-icon"><span class="skill-badge">RAG</span></div>
+        <div class="skill-copy"><span class="skill-name">RAG</span><span class="skill-meta">Retrieval Pattern</span></div>
+      </article>
+      <article class="skill-item skill-item--badge" style="--skill-accent:236,72,153;">
+        <div class="skill-icon"><span class="skill-badge skill-badge-wide">Guard</span></div>
+        <div class="skill-copy"><span class="skill-name">Guardrails AI</span><span class="skill-meta">Safety Layer</span></div>
+      </article>
+      <article class="skill-item skill-item--badge" style="--skill-accent:14,165,233;">
+        <div class="skill-icon"><span class="skill-badge">MCP</span></div>
+        <div class="skill-copy"><span class="skill-name">MCP</span><span class="skill-meta">Tool Protocol</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:255,97,31;">
+        <div class="skill-icon"><img src="images/techskills/brand/qdrant.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Qdrant</span><span class="skill-meta">Vector Database</span></div>
+      </article>
+      <article class="skill-item skill-item--badge" style="--skill-accent:37,99,235;">
+        <div class="skill-icon"><span class="skill-badge skill-badge-small">FAISS</span></div>
+        <div class="skill-copy"><span class="skill-name">FAISS</span><span class="skill-meta">Vector Search</span></div>
+      </article>
+      <article class="skill-item skill-item--badge" style="--skill-accent:16,185,129;">
+        <div class="skill-icon"><span class="skill-badge">Pine</span></div>
+        <div class="skill-copy"><span class="skill-name">Pinecone</span><span class="skill-meta">Vector Database</span></div>
+      </article>
+      <article class="skill-item skill-item--badge" style="--skill-accent:244,114,182;">
+        <div class="skill-icon"><span class="skill-badge">ChDB</span></div>
+        <div class="skill-copy"><span class="skill-name">ChromaDB</span><span class="skill-meta">Embedding Store</span></div>
+      </article>
+      <article class="skill-item skill-item--badge" style="--skill-accent:245,158,11;">
+        <div class="skill-icon"><span class="skill-badge">AWS</span></div>
+        <div class="skill-copy"><span class="skill-name">AWS</span><span class="skill-meta">Cloud Platform</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:0,120,212;">
+        <div class="skill-icon"><img src="images/techskills/brand/azure.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Azure</span><span class="skill-meta">Enterprise Cloud</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:36,150,237;">
+        <div class="skill-icon"><img src="images/techskills/brand/docker.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Docker</span><span class="skill-meta">Containers</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:35,35,35;">
+        <div class="skill-icon"><img src="images/techskills/brand/kafka.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Kafka</span><span class="skill-meta">Streaming</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:51,103,145;">
+        <div class="skill-icon"><img src="images/techskills/brand/postgresql.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">PostgreSQL</span><span class="skill-meta">Relational Data</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:220,38,38;">
+        <div class="skill-icon"><img src="images/techskills/brand/redis.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Redis</span><span class="skill-meta">Cache Layer</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:37,99,235;">
+        <div class="skill-icon"><img src="images/techskills/brand/mlflow.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">MLflow</span><span class="skill-meta">MLOps Tracking</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:249,115,22;">
+        <div class="skill-icon"><img src="images/techskills/brand/git.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Git</span><span class="skill-meta">Version Control</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:14,165,233;">
+        <div class="skill-icon"><img src="images/techskills/brand/go.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Go</span><span class="skill-meta">Systems Work</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:59,130,246;">
+        <div class="skill-icon"><img src="images/techskills/brand/cplusplus.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">C++</span><span class="skill-meta">Performance</span></div>
+      </article>
+      <article class="skill-item" style="--skill-accent:234,88,12;">
+        <div class="skill-icon"><img src="images/techskills/brand/openjdk.svg" alt="" loading="lazy"></div>
+        <div class="skill-copy"><span class="skill-name">Java</span><span class="skill-meta">Backend Systems</span></div>
+      </article>
+    </div>
+  </div>
+
+  <!-- Research -->
+  <div class="section" id="research">
+    <div class="sec-label">Research</div>
+    <h2>Publications &amp; <em>papers.</em></h2>
+    <div class="entry">
+      <div class="entry-role">BudgetMem: Selective Memory Policies for Cost-Efficient Long-Context Processing</div>
+      <ul>
+        <li>72.4% memory reduction, 99% accuracy retained (1% F1 drop) on long-document benchmarks</li>
+        <li>Validated on $10/month hardware (Google Colab) — democratizes long-context AI without GPU infrastructure</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-role">Low-Level GPU Profiling &amp; Kernel Debugging</div>
+      <ul>
+        <li>Profiling playbook: nvprof, Nsight Systems/Compute, NCCL traces — warp divergence, uncoalesced memory, launch overhead</li>
+        <li>Kernel fusion, shared-mem tiling, async copy, CUDA Graphs → double-digit latency reductions on inference workloads</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-role">Automation Pipelines</div>
+      <ul>
+        <li>Event-driven multi-agent pipeline with sagas, retries, idempotent checkpoints — hours to minutes</li>
+        <li>Offline eval harness (pass@k, citation correctness, hallucination rate); SME prep time cut ~60%</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <div class="section" id="projects">
+    <div class="sec-label">Projects</div>
+    <h2>Key <em>builds.</em></h2>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">Custom Transformer Training Pipeline</div>
+        <div class="card-body">Transformer LM from scratch in PyTorch · DDP across multiple GPUs · custom data preprocessing pipeline</div>
+      </div>
+      <div class="card">
+        <div class="card-title">GPU Kernel Optimization Framework</div>
+        <div class="card-body">nvprof + Nsight profiling · custom CUDA kernels · 25% inference latency reduction</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Multi-Agent Automation System</div>
+        <div class="card-body">LangGraph event-driven pipeline · saga pattern · 99.92% availability · autonomous remediation</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Hybrid RAG Retrieval System</div>
+        <div class="card-body">Azure AI Search + FAISS · 92% citation accuracy · NLI hallucination guardrails</div>
+      </div>
+    </div>
+
+    <h3 id="blog" style="margin-top:52px;">Blog</h3>
+    <p style="color:rgba(232,234,240,.35);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;">
+      Coming soon — insights on AI/ML engineering, GPU optimization, and production agentic systems.
+    </p>
+  </div>
+
+</div>
+<footer>© 2025 Chandra Alla · All rights reserved.</footer>
+
+<!-- ══════════════════════════════
+     PLASMA SHADER (hero bg)
+══════════════════════════════ -->
+<script>
+(function(){
+  const cv=document.getElementById('cv-plasma');
+  if(!cv || getComputedStyle(cv).display === 'none') return;
+  const gl=cv.getContext('webgl',{premultipliedAlpha:false,antialias:false});
+  if(!gl){cv.style.background='#030308';return;}
+  function rsz(){const d=Math.min(devicePixelRatio,1.8);cv.width=innerWidth*d;cv.height=innerHeight*d;}
+  rsz();addEventListener('resize',rsz);
+  const VS=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+  const FS=`precision highp float;
+  uniform vec2 uRes;uniform float uT;uniform vec2 uM;uniform float uCk;uniform vec2 uCP;
+  float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+  float n(vec2 p){vec2 i=floor(p),f=fract(p);float a=h(i),b=h(i+vec2(1,0)),c=h(i+vec2(0,1)),d=h(i+vec2(1,1));vec2 u=f*f*(3.-2.*f);return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);}
+  float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p*=2.02;a*=.5;}return v;}
+  void main(){
+    vec2 uv=gl_FragCoord.xy/uRes.xy,p=(gl_FragCoord.xy-uRes*.5)/uRes.y,t=vec2(uT*.12);
+    vec2 mp=(uM-.5)*vec2(uRes.x/uRes.y,1.),cp=(uCP-.5)*vec2(uRes.x/uRes.y,1.);
+    vec2 q=vec2(fbm(p*1.3+t.x),fbm(p*1.3-t.x+3.7));
+    vec2 r=vec2(fbm(p+q*2.+vec2(1.7,9.2)+t.x*.8),fbm(p+q*2.+vec2(8.3,2.8)-t.x*.8));
+    float f=fbm(p+r*2.+mp*.6);
+    vec3 c1=vec3(.02,.04,.18),c2=vec3(.08,.10,.55),c3=vec3(.65,.18,.85),c4=vec3(1.,.45,.55);
+    vec3 col=mix(c1,c2,smoothstep(0.,.5,f));col=mix(col,c3,smoothstep(.45,.75,f));col=mix(col,c4,smoothstep(.75,.95,f));
+    col+=vec3(.4,.6,1.2)*exp(-length(p-mp)*3.8)*.35;
+    float ring=smoothstep(.02,0.,abs(length(p-cp)-(1.-uCk)*.9))*uCk*1.6;
+    col+=vec3(.9,.7,1.4)*ring;
+    col*=.35+.65*smoothstep(1.2,.2,length(uv-.5));
+    col+=(h(gl_FragCoord.xy+uT)-.5)*.02;
+    gl_FragColor=vec4(col,1.);
+  }`;
+  function sh(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);return x;}
+  const prog=gl.createProgram();
+  gl.attachShader(prog,sh(gl.VERTEX_SHADER,VS));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(prog);
+  const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+  const pL=gl.getAttribLocation(prog,'p');
+  const uR=gl.getUniformLocation(prog,'uRes'),uT=gl.getUniformLocation(prog,'uT'),
+        uM=gl.getUniformLocation(prog,'uM'),uCk=gl.getUniformLocation(prog,'uCk'),uCP=gl.getUniformLocation(prog,'uCP');
+  const m={x:.5,y:.5,tx:.5,ty:.5,cx:.5,cy:.5,ph:0};
+  window.addEventListener('mousemove',e=>{m.tx=e.clientX/innerWidth;m.ty=1-e.clientY/innerHeight;});
+  document.addEventListener('click',e=>{m.cx=e.clientX/innerWidth;m.cy=1-e.clientY/innerHeight;m.ph=1;});
+  const t0=performance.now();
+  (function f(){
+    m.x+=(m.tx-m.x)*.07;m.y+=(m.ty-m.y)*.07;
+    if(m.ph>0){m.ph-=.012;if(m.ph<0)m.ph=0;}
+    gl.viewport(0,0,cv.width,cv.height);gl.useProgram(prog);
+    gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.enableVertexAttribArray(pL);
+    gl.vertexAttribPointer(pL,2,gl.FLOAT,false,0,0);
+    gl.uniform2f(uR,cv.width,cv.height);gl.uniform1f(uT,(performance.now()-t0)/1e3);
+    gl.uniform2f(uM,m.x,m.y);gl.uniform1f(uCk,m.ph);gl.uniform2f(uCP,m.cx,m.cy);
+    gl.drawArrays(gl.TRIANGLE_STRIP,0,4);requestAnimationFrame(f);
+  })();
+})();
+</script>
+
+<!-- ══════════════════════════════
+     HERO TYPE
+     Static editorial headline + large rotating support copy
+══════════════════════════════ -->
+<script>
+(function(){
+  const bioEl = document.getElementById('typed-bio');
+  if(!bioEl) return;
+
+  const bioPhrases = [
+    'GenAI Engineer at AT&T.',
+    'Multi-agent orchestration, RAG, GPU-level optimization.',
+    'Building systems that learn from human experts and ship at enterprise scale.'
+  ];
+
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
+
+  function loop(){
+    const phrase = bioPhrases[phraseIndex];
+
+    if(!deleting){
+      charIndex += 1;
+      bioEl.textContent = phrase.slice(0, charIndex);
+      if(charIndex >= phrase.length){
+        deleting = true;
+        setTimeout(loop, 2200);
+        return;
+      }
+      setTimeout(loop, 32 + Math.random() * 22);
+    } else {
+      charIndex -= 1;
+      bioEl.textContent = phrase.slice(0, Math.max(0, charIndex));
+      if(charIndex <= 0){
+        deleting = false;
+        phraseIndex = (phraseIndex + 1) % bioPhrases.length;
+        setTimeout(loop, 240);
+        return;
+      }
+      setTimeout(loop, 14);
+    }
+  }
+
+  bioEl.textContent = '';
+  charIndex = 0;
+  deleting = false;
+  setTimeout(loop, 380);
+})();
+</script>
+
+<!-- ══════════════════════════════
+     CONTENT BEHAVIOR
+     · Plain black post-hero background
+     · Keep nav solid on scroll only
+══════════════════════════════ -->
+<script>
+(function(){
+  const nav = document.getElementById('nav');
+  function updateNav(){
+    nav.classList.toggle('solid', window.scrollY > 60);
+  }
+
+  window.addEventListener('scroll', updateNav, {passive:true});
+  updateNav();
+})();
+</script>
+
 </body>
 </html>
